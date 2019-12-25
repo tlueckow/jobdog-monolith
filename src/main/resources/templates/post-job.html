@@ -25,8 +25,15 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="description" class="col-form-label">Description</label>
-                                <textarea type="text" th:field="*{description}" class="form-control" id="description" rows="10" placeholder="Description"></textarea>
+                                <textarea type="text" th:field="*{description}" class="form-control" id="description" rows="8" placeholder="Description"></textarea>
                                 <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label for="publishDateTime" class="col-form-label">Description</label>
+                                <input type="text" th:field="*{publishDateTime}" class="form-control" id="publishDateTime" placeholder="Publish date and time"></input>
+                                <span th:if="${#fields.hasErrors('publishDateTime')}" th:errors="*{publishDateTime}" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row">
