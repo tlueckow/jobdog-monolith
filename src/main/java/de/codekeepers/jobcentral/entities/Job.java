@@ -6,7 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,7 +23,6 @@ public class Job {
     private String description;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    @Future
     private LocalDateTime publishDateTime = LocalDateTime.now().plusMinutes(1);
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
