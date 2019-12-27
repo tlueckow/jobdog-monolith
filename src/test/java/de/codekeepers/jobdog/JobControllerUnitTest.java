@@ -1,4 +1,4 @@
-package de.codekeepers.jobcentral;
+package de.codekeepers.jobdog;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -9,9 +9,9 @@ import org.junit.Test;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 
-import de.codekeepers.jobcentral.controllers.JobController;
-import de.codekeepers.jobcentral.entities.Job;
-import de.codekeepers.jobcentral.repositories.JobRepository;
+import de.codekeepers.jobdog.controllers.JobController;
+import de.codekeepers.jobdog.entities.Job;
+import de.codekeepers.jobdog.repositories.JobRepository;
 
 public class JobControllerUnitTest {
 
@@ -32,7 +32,7 @@ public class JobControllerUnitTest {
     public void whenCalledshowSignUpForm_thenCorrect() {
         Job job = new Job("John", "john@domain.com");
 
-        assertThat(jobController.showSignUpForm(job)).isEqualTo("postjob");
+        assertThat(jobController.showSignUpForm(job)).isEqualTo("post-job");
     }
     
     @Test
@@ -50,7 +50,7 @@ public class JobControllerUnitTest {
 
         when(mockedBindingResult.hasErrors()).thenReturn(true);
 
-        assertThat(jobController.addJob(job, mockedBindingResult, mockedModel)).isEqualTo("postjob");
+        assertThat(jobController.addJob(job, mockedBindingResult, mockedModel)).isEqualTo("post-job");
     }
 
     @Test(expected = IllegalArgumentException.class)

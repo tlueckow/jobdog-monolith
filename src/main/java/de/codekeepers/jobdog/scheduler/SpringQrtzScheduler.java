@@ -1,4 +1,4 @@
-package de.codekeepers.jobcentral.scheduler;
+package de.codekeepers.jobdog.scheduler;
 
 import javax.sql.DataSource;
 
@@ -54,8 +54,8 @@ public class SpringQrtzScheduler {
 
         JobDetailFactoryBean jobDetailFactory = new JobDetailFactoryBean();
         jobDetailFactory.setJobClass(PublishJob.class);
-        jobDetailFactory.setName("Qrtz_Job_Detail");
-        jobDetailFactory.setDescription("Invoke Sample Job service...");
+        jobDetailFactory.setName("Job_Post_Detail");
+        jobDetailFactory.setDescription("Invoke Job Posting Service");
         jobDetailFactory.setDurability(true);
         return jobDetailFactory;
     }
@@ -66,12 +66,12 @@ public class SpringQrtzScheduler {
         SimpleTriggerFactoryBean trigger = new SimpleTriggerFactoryBean();
         trigger.setJobDetail(job);
 
-        int frequencyInSec = 10;
+        int frequencyInSec = 5;
         logger.info("Configuring trigger to fire every {} seconds", frequencyInSec);
 
         trigger.setRepeatInterval(frequencyInSec * 1000);
         trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
-        trigger.setName("Qrtz_Trigger");
+        trigger.setName("Job_Post_Trigger");
         return trigger;
     }
 

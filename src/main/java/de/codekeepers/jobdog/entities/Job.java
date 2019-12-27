@@ -1,14 +1,13 @@
-package de.codekeepers.jobcentral.entities;
+package de.codekeepers.jobdog.entities;
 
-import java.time.LocalDateTime;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import java.time.LocalDateTime;
 
 @Entity
 public class Job {
@@ -36,44 +35,44 @@ public class Job {
         this.description = description;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public long getId() {
         return id;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setPublishDateTime(LocalDateTime publishDateTime) {
-        this.publishDateTime = publishDateTime;
-    }
-
-    public void setPublishedTimestamp(LocalDateTime publishedTimestamp) {
-        this.publishedTimestamp = publishedTimestamp;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getPublishDateTime() {
         return publishDateTime;
     }
 
+    public void setPublishDateTime(LocalDateTime publishDateTime) {
+        this.publishDateTime = publishDateTime;
+    }
+
     public LocalDateTime getPublishedTimestamp() {
         return publishedTimestamp;
+    }
+
+    public void setPublishedTimestamp(LocalDateTime publishedTimestamp) {
+        this.publishedTimestamp = publishedTimestamp;
     }
 
     public boolean isPublished() {
@@ -82,7 +81,6 @@ public class Job {
 
     @Override
     public String toString() {
-        return "Job{" + "id=" + id + ", title=" + title + ", description=" + description + ", publishDateTime="
-                + publishDateTime + '}';
+        return String.format("Job{id=%d, title=%s}", id, title);
     }
 }

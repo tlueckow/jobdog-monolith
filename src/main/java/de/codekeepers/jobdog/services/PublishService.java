@@ -1,4 +1,4 @@
-package de.codekeepers.jobcentral.services;
+package de.codekeepers.jobdog.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import de.codekeepers.jobcentral.entities.Job;
-import de.codekeepers.jobcentral.repositories.JobRepository;
+import de.codekeepers.jobdog.entities.Job;
+import de.codekeepers.jobdog.repositories.JobRepository;
 
 /**
  * PublishService

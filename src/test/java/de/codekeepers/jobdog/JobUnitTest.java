@@ -1,10 +1,10 @@
-package de.codekeepers.jobcentral;
+package de.codekeepers.jobdog;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Test;
 
-import de.codekeepers.jobcentral.entities.Job;
+import de.codekeepers.jobdog.entities.Job;
 
 public class JobUnitTest {
     
@@ -43,6 +43,6 @@ public class JobUnitTest {
     @Test
     public void whenCalledtoString_thenCorrect() {
         Job job = new Job("Sous Chef", "Hands on cooking. ");
-        assertThat(job.toString()).isEqualTo("Job{id=0, title=Sous Chef, description=Hands on cooking. }");
+        assertThat(job.toString()).isEqualTo("Job{id=0, title=Sous Chef}");
     }
 }

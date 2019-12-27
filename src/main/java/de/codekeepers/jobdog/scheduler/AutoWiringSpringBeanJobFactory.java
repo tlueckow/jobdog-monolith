@@ -1,4 +1,4 @@
-package de.codekeepers.jobcentral.scheduler;
+package de.codekeepers.jobdog.scheduler;
 
 import org.quartz.spi.TriggerFiredBundle;
 import org.springframework.beans.BeansException;

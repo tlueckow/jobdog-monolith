@@ -1,4 +1,4 @@
-package de.codekeepers.jobcentral.controllers;
+package de.codekeepers.jobdog.controllers;
 
 import javax.validation.Valid;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import de.codekeepers.jobcentral.entities.Job;
-import de.codekeepers.jobcentral.repositories.JobRepository;
+import de.codekeepers.jobdog.entities.Job;
+import de.codekeepers.jobdog.repositories.JobRepository;
 
 @Controller
 public class JobController {

@@ -1,6 +1,6 @@
-package de.codekeepers.jobcentral.repositories;
+package de.codekeepers.jobdog.repositories;
 
-import de.codekeepers.jobcentral.entities.Job;
+import de.codekeepers.jobdog.entities.Job;
 
 import java.time.LocalDateTime;
 import java.util.List;
