@@ -21,6 +21,8 @@ public class Job {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
+    private String tags;
+
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime publishDateTime = LocalDateTime.now().plusMinutes(1);
 
@@ -57,6 +59,14 @@ public class Job {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 
     public LocalDateTime getPublishDateTime() {

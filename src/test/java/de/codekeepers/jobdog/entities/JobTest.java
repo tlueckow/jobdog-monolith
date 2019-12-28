@@ -1,4 +1,4 @@
-package de.codekeepers.jobdog;
+package de.codekeepers.jobdog.entities;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import de.codekeepers.jobdog.entities.Job;
 
-public class JobUnitTest {
+public class JobTest {
     
     @Test
     public void whenCalledGetTitle_thenCorrect() {

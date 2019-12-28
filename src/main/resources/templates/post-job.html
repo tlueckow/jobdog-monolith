@@ -30,6 +30,13 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
+                                <label for="description" class="col-form-label">Tags</label>
+                                <input type="text" th:field="*{tags}" class="form-control" id="tags" rows="8" placeholder="Tags">
+                                <span th:if="${#fields.hasErrors('tags')}" th:errors="*{tags}" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
                                 <label for="publishDateTime" class="col-form-label">Description</label>
                                 <input type="text" th:field="*{publishDateTime}" class="form-control" id="publishDateTime" placeholder="Publish date and time"></input>
                                 <span th:if="${#fields.hasErrors('publishDateTime')}" th:errors="*{publishDateTime}" class="text-danger"></span>

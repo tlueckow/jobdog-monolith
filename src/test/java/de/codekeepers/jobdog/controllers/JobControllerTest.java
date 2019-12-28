@@ -1,4 +1,4 @@
-package de.codekeepers.jobdog;
+package de.codekeepers.jobdog.controllers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -13,7 +13,7 @@ import de.codekeepers.jobdog.controllers.JobController;
 import de.codekeepers.jobdog.entities.Job;
 import de.codekeepers.jobdog.repositories.JobRepository;
 
-public class JobControllerUnitTest {
+public class JobControllerTest {
 
     private static JobController jobController;
     private static JobRepository mockedJobRepository;
