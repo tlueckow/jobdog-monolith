@@ -13,6 +13,10 @@
 <body>
     <div class="container my-5">
         <img th:src="@{/images/logo_transparent.png}" height="200px">
+        <p class="my-5">
+            <a th:href="@{/}" class="btn btn-primary">Refresh</a>
+            <a th:href="@{/newjob}" class="btn btn-primary">New Job</a>
+        </p>
         <table class="table table-striped table-responsive-md" id="tblJobs">
             <thead>
                 <tr>
@@ -36,10 +40,6 @@
                 </tr>
             </tbody>
         </table>
-        <p class="my-5">
-            <a th:href="@{/}" class="btn btn-primary">Refresh</a>
-            <a th:href="@{/newjob}" class="btn btn-primary">New Job</a>
-        </p>
     </div>
 </body>
 
