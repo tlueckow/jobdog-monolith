@@ -3,6 +3,7 @@ package de.codekeepers.jobdog.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,7 +26,7 @@ public class JobController {
     
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("jobs", jobRepository.findAll());
+        model.addAttribute("jobs", jobRepository.findAll(Sort.by(Sort.Direction.DESC, "publishAt")));
         return "index";
     }
 
@@ -41,7 +42,7 @@ public class JobController {
         }
         
         jobRepository.save(job);
-        model.addAttribute("jobs", jobRepository.findAll());
+        model.addAttribute("jobs", jobRepository.findAll(Sort.by(Sort.Direction.DESC, "publishAt")));
         return "index";
     }
     

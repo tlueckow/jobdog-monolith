@@ -24,7 +24,7 @@ public class Job {
     private String tags;
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
-    private LocalDateTime publishDateTime = LocalDateTime.now().plusMinutes(1);
+    private LocalDateTime publishAt = LocalDateTime.now();
 
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime publishedTimestamp;
@@ -69,12 +69,12 @@ public class Job {
         this.tags = tags;
     }
 
-    public LocalDateTime getPublishDateTime() {
-        return publishDateTime;
+    public LocalDateTime getPublishAt() {
+        return publishAt;
     }
 
-    public void setPublishDateTime(LocalDateTime publishDateTime) {
-        this.publishDateTime = publishDateTime;
+    public void setPublishAt(LocalDateTime publishAt) {
+        this.publishAt = publishAt;
     }
 
     public LocalDateTime getPublishedTimestamp() {

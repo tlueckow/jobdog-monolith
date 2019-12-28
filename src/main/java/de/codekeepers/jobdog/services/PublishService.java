@@ -5,6 +5,7 @@ import de.codekeepers.jobdog.repositories.JobRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,6 +29,9 @@ public class PublishService {
     @Autowired
     private JobRepository jobRepository;
 
+    @Value("${app.publishService.url}")
+    private String url;
+
     static String convertToXml(Job job) {
 
         return tag("job",
@@ -47,7 +51,7 @@ public class PublishService {
         logger.info("Start publishing... ");
 
         List<Job> jobsToBePublished = jobRepository
-                .findByPublishedTimestampIsNullAndPublishDateTimeBefore(LocalDateTime.now());
+                .findByPublishedTimestampIsNullAndPublishAtBefore(LocalDateTime.now());
         long count = StreamSupport.stream(jobsToBePublished.spliterator(), false).count();
         logger.info("Jobs count to be published: {}", count);
 
@@ -61,11 +65,11 @@ public class PublishService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
-        HttpEntity<String> request = new HttpEntity<String>(convertToXml(job), headers);
+        HttpEntity<String> request = new HttpEntity<>(convertToXml(job), headers);
 
         try {
             ResponseEntity<String> response = restTemplate
-                    .postForEntity("https://jkyszaoly5.execute-api.eu-central-1.amazonaws.com/dev/jobs", request, String.class);
+                    .postForEntity(url, request, String.class);
 
             HttpStatus status = response.getStatusCode();
             job.setPublishedTimestamp(LocalDateTime.now());

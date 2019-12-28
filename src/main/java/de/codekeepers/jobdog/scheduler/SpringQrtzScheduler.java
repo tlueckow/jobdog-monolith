@@ -8,6 +8,7 @@ import org.quartz.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,9 @@ public class SpringQrtzScheduler {
 
     Logger logger = LoggerFactory.getLogger(getClass());
 
+    @Value("${app.publishService.interval:5}")
+    private int interval;
+
     @Autowired
     private ApplicationContext applicationContext;
 
@@ -37,7 +41,7 @@ public class SpringQrtzScheduler {
     }
 
     @Bean
-    public SchedulerFactoryBean scheduler(Trigger trigger, JobDetail job, DataSource quartzDataSource) {
+    public SchedulerFactoryBean scheduler(Trigger trigger, JobDetail job) {
 
         SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
         schedulerFactory.setConfigLocation(new ClassPathResource("quartz.properties"));
@@ -65,11 +69,9 @@ public class SpringQrtzScheduler {
 
         SimpleTriggerFactoryBean trigger = new SimpleTriggerFactoryBean();
         trigger.setJobDetail(job);
+        logger.info("Configuring trigger to fire every {} seconds", interval);
 
-        int frequencyInSec = 5;
-        logger.info("Configuring trigger to fire every {} seconds", frequencyInSec);
-
-        trigger.setRepeatInterval(frequencyInSec * 1000);
+        trigger.setRepeatInterval(interval * 1000);
         trigger.setRepeatCount(SimpleTrigger.REPEAT_INDEFINITELY);
         trigger.setName("Job_Post_Trigger");
         return trigger;

@@ -37,14 +37,14 @@
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
-                                <label for="publishDateTime" class="col-form-label">Description</label>
-                                <input type="text" th:field="*{publishDateTime}" class="form-control" id="publishDateTime" placeholder="Publish date and time"></input>
-                                <span th:if="${#fields.hasErrors('publishDateTime')}" th:errors="*{publishDateTime}" class="text-danger"></span>
+                                <label for="publishAt" class="col-form-label">Description</label>
+                                <input type="text" th:field="*{publishAt}" class="form-control" id="publishAt" placeholder="Publish date and time"></input>
+                                <span th:if="${#fields.hasErrors('publishAt')}" th:errors="*{publishAt}" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="submit" class="btn btn-primary" value="Post Job">
+                                <input type="submit" class="btn btn-primary" id="btnPostJob" value="Post Job">
                                 <a th:href="@{/}" class="btn btn-primary">Cancel</a>
                             </div>
                         </div>    
