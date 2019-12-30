@@ -42,3 +42,58 @@ Build the simulator.
 Start the simulator for 10 posts (default is 5).
 
 `mvn exec:java mvn exec:java -Dexec.args="10"`
+
+## Dockerize web application 
+
+```
+cd app
+mvn install
+docker build .
+```
+
+## Run docker image locally
+```
+docker images
+docker run -p 8080:8080 <IMAGE ID>
+```
+
+## Deploy to AWS fargate
+
+1. Get fargate CLI tool from https://github.com/awslabs/fargatecli
+
+### AWS deployment and running
+
+```
+export AWS_PROFILE=<YOUR_AWS_PROFILE> 
+fargate task run jobdog --security-group-id sg-0707ec94eb1300cc6 --region eu-central-1
+```
+
+### Find out IP address and connect via browser
+
+```
+fargate task info jobdog --region eu-central-1
+http://<IP>:8080
+```
+
+### Watch logfile
+
+1. Get and install saw from https://github.com/TylerBrock/saw
+
+```
+saw watch /fargate/task/app
+```
+
+### Monitor logfile
+
+1. Get and install kmon from https://github.com/rwirdemann/kmon
+
+```
+saw watch /fargate/task/app > /tmp/joblog.log 
+kmon -logfile /tmp/jobdog.log
+```
+
+### Stop the container
+
+```
+fargate task stop jobdog --region eu-central-1 
+```
