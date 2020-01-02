@@ -25,11 +25,20 @@ public class PostJobSimulation {
         System.setProperty("webdriver.chrome.driver", homeDir + "/bin/chromedriver");
 
         int count = 5;
+        int errorRate = 5;
         try {
-            for (int i = 0; i < args.length; i++) {
-                count = Integer.valueOf(args[i]);
+
+            if (args.length >= 1) {
+                count = Integer.valueOf(args[0]);
             }
-            logger.info("Will simulate {} random post(s).", count);
+            if (args.length >= 2) {
+                errorRate = Integer.valueOf(args[1]);
+            }
+            if (count == -1) {
+                logger.info("Will simulate infinite random posts with {}% error rate.", errorRate);
+            } else {
+                logger.info("Will simulate {} random post(s) with {}% error rate.", count, errorRate);
+            }
         } catch (Exception e) {
             logger.error("Cannot parse commandline.", e);
             System.exit(-1);
@@ -45,39 +54,59 @@ public class PostJobSimulation {
             System.exit(-2);
         }
 
-        WebDriver driver = null;
-        try {
-            ChromeOptions options = new ChromeOptions();
-            options.setHeadless(true);
-            driver = new ChromeDriver(options);
-            driver.get("http://localhost:8080/");
-            driver.manage().window().setSize(new Dimension(1536, 960));
+        boolean infinite = count == -1;
+        do {
+            WebDriver driver = null;
+            boolean error = false;
+            try {
+                ChromeOptions options = new ChromeOptions();
+                options.setHeadless(true);
+                driver = new ChromeDriver(options);
+                driver.get("http://localhost:8080/");
+                driver.manage().window().setSize(new Dimension(1536, 960));
 
-            postJob(driver, jobCorpus, count);
+                postJob(driver, jobCorpus, infinite ? 10 : count, errorRate);
 
-        } catch (Exception e) {
-            logger.error("Error simulating posts.", e);
-            System.exit(-3);
-        } finally {
-            if (driver != null) {
-                driver.close();
+            } catch (Exception e) {
+                logger.error("Failed posting: {}", e.getMessage());
+                error = true;
+            } finally {
+                if (driver != null) {
+                    driver.close();
+                }
             }
-        }
+            if (error) {
+                try {
+                    Thread.sleep(2000L);
+                } catch (InterruptedException e) {
+                    Thread.interrupted();
+                }
+            }
+        } while (infinite);
+
         System.exit(0);
     }
 
-    private static void postJob(WebDriver driver, List<String> jobCorpus, int count) throws Exception {
+    private static void postJob(WebDriver driver, List<String> jobCorpus, int count, int errorRate) {
 
         for (int i = 0; i < count; i++) {
 
-            int pos = ThreadLocalRandom.current().nextInt(0, jobCorpus.size());
-            playPostJob(driver, jobCorpus.get(pos));
+            ThreadLocalRandom rand = ThreadLocalRandom.current();
+            int pos = rand.nextInt(0, jobCorpus.size());
+            String title = jobCorpus.get(pos);
+
+            String tags = "jobs";
+            if (rand.nextInt(errorRate) == 0) {
+                tags += ",premium";
+            }
+
+            playPostJob(driver, title, tags);
         }
     }
 
-    private static void playPostJob(WebDriver driver, String title) {
+    private static void playPostJob(WebDriver driver, String title, String tags) {
 
-        logger.info("Post job {} ...", title);
+        logger.info("Post job '{}'  with tags = '{}' ...", title, tags);
 
         driver.findElement(By.linkText("New Job")).click();
         driver.findElement(By.id("title")).click();
@@ -85,7 +114,9 @@ public class PostJobSimulation {
         driver.findElement(By.id("description")).click();
         driver.findElement(By.id("description")).sendKeys("We are hiring.");
         driver.findElement(By.id("tags")).click();
-        driver.findElement(By.id("tags")).sendKeys("job");
+
+
+        driver.findElement(By.id("tags")).sendKeys(tags);
         driver.findElement(By.id("btnPostJob")).click();
         driver.findElement(By.linkText("Refresh")).click();
     }

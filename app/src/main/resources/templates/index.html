@@ -24,6 +24,7 @@
                     <th>Description</th>
                     <th>Publish at</th>
                     <th>Published</th>
+                    <th>Publish Trials</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -37,6 +38,7 @@
                         <a th:unless="${job.published}" th:href="@{/edit/{id}(id=${job.id})}" class="btn btn-primary">Edit</a>
                         <a th:href="@{/delete/{id}(id=${job.id})}" class="btn btn-primary">Delete</a>
                     </td>
+                    <td th:text="${job.publishTrials}"></td>
                 </tr>
             </tbody>
         </table>

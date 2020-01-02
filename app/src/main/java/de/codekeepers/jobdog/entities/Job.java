@@ -29,6 +29,8 @@ public class Job {
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm:ss")
     private LocalDateTime publishedTimestamp;
 
+    private int publishTrials = 0;
+
     public Job() {
     }
 
@@ -89,8 +91,20 @@ public class Job {
         return publishedTimestamp != null;
     }
 
+    public int getPublishTrials() {
+        return publishTrials;
+    }
+
+    public void setPublishTrials(int publishTrials) {
+        this.publishTrials = publishTrials;
+    }
+
     @Override
     public String toString() {
         return String.format("Job{id=%d, title=%s}", id, title);
+    }
+
+    public void incPublishTrials() {
+        publishTrials ++;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
@@ -37,7 +38,7 @@ public class PublishService {
         return tag("job",
                 tag("title", job.getTitle()) +
                         tag("description", job.getDescription()) +
-                        (StringUtils.isEmpty(job.getTags()) ? "" : tag("categories", Arrays.stream(job.getTags().split(",")).map(s -> tag("category", s)).collect(Collectors.joining())))
+                        (StringUtils.isEmpty(job.getTags()) ? "" : tag("categories", Arrays.stream(job.getTags().split(",")).map(s -> tag("category", s)).collect(Collectors.joining("<"))))
         );
     }
 
@@ -51,7 +52,7 @@ public class PublishService {
         logger.info("Start publishing... ");
 
         List<Job> jobsToBePublished = jobRepository
-                .findByPublishedTimestampIsNullAndPublishAtBefore(LocalDateTime.now());
+                .findByPublishedTimestampIsNullAndPublishAtBeforeAndPublishTrialsLessThan(LocalDateTime.now(), 1);
         long count = StreamSupport.stream(jobsToBePublished.spliterator(), false).count();
         logger.info("Jobs count to be published: {}", count);
 
@@ -73,10 +74,15 @@ public class PublishService {
 
             HttpStatus status = response.getStatusCode();
             job.setPublishedTimestamp(LocalDateTime.now());
-            jobRepository.save(job);
             logger.info("Published job: {}, status={}", job.getId(), status);
+        } catch (HttpClientErrorException ex) {
+            HttpStatus status = ex.getStatusCode();
+            logger.error("Client error publishing job: #{}, status={}", job.getId(), status);
         } catch (Exception ex) {
-            logger.error("Error publishing job: #{}", ex, job.getId());
+            logger.error("Error publishing job: #" + job.getId(), ex);
+        } finally {
+            job.incPublishTrials();
+            jobRepository.save(job);
         }
     }
 

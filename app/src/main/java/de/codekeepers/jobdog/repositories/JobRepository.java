@@ -13,6 +13,6 @@ public interface JobRepository extends PagingAndSortingRepository<Job, Long> {
     
     List<Job> findByTitle(String title);
 
-    List<Job> findByPublishedTimestampIsNullAndPublishAtBefore(LocalDateTime now);
+    List<Job> findByPublishedTimestampIsNullAndPublishAtBeforeAndPublishTrialsLessThan(LocalDateTime now, int maxPublishTrials);
 
 }

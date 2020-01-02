@@ -5,7 +5,7 @@ The Jobdog Monolith component is the legacy application part in the Codekeepers 
 
 It has a simple UI to create, edit and delete job postings.
 The application stores job postings in a memory database.
-A Quartz timer runs every n seconds and publishes not already published job postings to an AWS lambda function.
+A Quartz timer runs every *n* seconds and publishes not already published job postings to an AWS lambda function.
 
 ### Starting the web application
 
@@ -39,22 +39,29 @@ Build the simulator.
 
 `mvn install`
 
-Start the simulator for 10 posts (default is 5).
+Start the simulator for n=10 posts (default is 5).
 
 `mvn exec:java mvn exec:java -Dexec.args="10"`
+
+Start the simulator for infinite posts (n = -1).
+
+`mvn exec:java mvn exec:java -Dexec.args="-1"`
+
+Start the simulator for infinite posts and error rate r=10 (statistically 1 out of *r* posts is erroneous; default is 5).
+
+`mvn exec:java mvn exec:java -Dexec.args="-1 10"`
 
 ## Dockerize web application 
 
 ```
 cd app
 mvn install
-docker build .
+docker build -t jobdog:v1 .
 ```
 
 ## Run docker image locally
 ```
-docker images
-docker run -p 8080:8080 <IMAGE ID>
+docker run -p 8080:8080 jobdog:v1
 ```
 
 ## Deploy to AWS fargate
