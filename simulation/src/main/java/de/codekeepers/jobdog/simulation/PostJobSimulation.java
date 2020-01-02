@@ -97,7 +97,7 @@ public class PostJobSimulation {
 
             String tags = "jobs";
             if (rand.nextInt(errorRate) == 0) {
-                tags += ",premium";
+                tags += ",r&d";
             }
 
             playPostJob(driver, title, tags);

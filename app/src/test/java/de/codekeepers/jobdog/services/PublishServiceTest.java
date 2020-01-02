@@ -26,6 +26,20 @@ public class PublishServiceTest {
                 "</job>");
     }
 
+    @Test
+    void shouldEscapeXml() {
+
+        givenAJob("Chef", "Do it.", "r&d");
+        whenConvertToXml();
+        thenXmlDataIs("<job>" +
+                "<title>Chef</title>" +
+                "<description>Do it.</description>" +
+                "<categories>" +
+                "<category>r&amp;d</category>" +
+                "</categories>" +
+                "</job>");
+    }
+
     private void thenXmlDataIs(String data) {
 
         Assert.assertEquals(data, xml);

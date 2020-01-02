@@ -2,6 +2,7 @@ package de.codekeepers.jobdog.services;
 
 import de.codekeepers.jobdog.entities.Job;
 import de.codekeepers.jobdog.repositories.JobRepository;
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,18 @@ public class PublishService {
     static String convertToXml(Job job) {
 
         return tag("job",
-                tag("title", job.getTitle()) +
-                        tag("description", job.getDescription()) +
-                        (StringUtils.isEmpty(job.getTags()) ? "" : tag("categories", Arrays.stream(job.getTags().split(",")).map(s -> tag("category", s)).collect(Collectors.joining("<"))))
+                textNode("title", job.getTitle()) +
+                        textNode("description", job.getDescription()) +
+                        (StringUtils.isEmpty(job.getTags()) ? "" : tag("categories", Arrays.stream(job.getTags().split(",")).map(s -> textNode("category", s)).collect(Collectors.joining())))
         );
     }
 
     private static String tag(String tag, String text) {
         return "<" + tag + ">" + text + "</" + tag + ">";
+    }
+
+    private static String textNode(String tag, String text) {
+        return tag(tag, StringEscapeUtils.escapeXml11(text));
     }
 
     @Transactional
@@ -66,7 +71,8 @@ public class PublishService {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
-        HttpEntity<String> request = new HttpEntity<>(convertToXml(job), headers);
+        String xml = convertToXml(job);
+        HttpEntity<String> request = new HttpEntity<>(xml, headers);
 
         try {
             ResponseEntity<String> response = restTemplate
@@ -77,7 +83,7 @@ public class PublishService {
             logger.info("Published job: {}, status={}", job.getId(), status);
         } catch (HttpClientErrorException ex) {
             HttpStatus status = ex.getStatusCode();
-            logger.error("Client error publishing job: #{}, status={}", job.getId(), status);
+            logger.error("Client error publishing job: #{}, status={}, body={}", job.getId(), status, xml);
         } catch (Exception ex) {
             logger.error("Error publishing job: #" + job.getId(), ex);
         } finally {

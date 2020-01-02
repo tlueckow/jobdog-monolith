@@ -34,11 +34,11 @@
                     <td th:text="${job.description}"></td>
                     <td th:text="${job.publishAt}"></td>
                     <td><input type="checkbox" id="published" th:checked="${job.published}" th:disabled="true"/></td>
+                    <td th:text="${job.publishTrials}"></td>
                     <td>
                         <a th:unless="${job.published}" th:href="@{/edit/{id}(id=${job.id})}" class="btn btn-primary">Edit</a>
                         <a th:href="@{/delete/{id}(id=${job.id})}" class="btn btn-primary">Delete</a>
                     </td>
-                    <td th:text="${job.publishTrials}"></td>
                 </tr>
             </tbody>
         </table>
