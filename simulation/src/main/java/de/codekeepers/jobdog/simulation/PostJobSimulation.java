@@ -26,6 +26,7 @@ public class PostJobSimulation {
 
         int count = 5;
         int errorRate = 5;
+        int batchSize = 25;
         try {
 
             if (args.length >= 1) {
@@ -33,6 +34,9 @@ public class PostJobSimulation {
             }
             if (args.length >= 2) {
                 errorRate = Integer.valueOf(args[1]);
+            }
+            if (args.length >= 3) {
+                batchSize = Integer.valueOf(args[2]);
             }
             if (count == -1) {
                 logger.info("Will simulate infinite random posts with {}% error rate.", errorRate);
@@ -65,14 +69,14 @@ public class PostJobSimulation {
                 driver.get("http://localhost:8080/");
                 driver.manage().window().setSize(new Dimension(1536, 960));
 
-                postJob(driver, jobCorpus, infinite ? 10 : count, errorRate);
+                postJob(driver, jobCorpus, infinite ? batchSize : count, errorRate);
 
             } catch (Exception e) {
                 logger.error("Failed posting: {}", e.getMessage());
                 error = true;
             } finally {
                 if (driver != null) {
-                    driver.close();
+                    driver.quit();
                 }
             }
             if (error) {
