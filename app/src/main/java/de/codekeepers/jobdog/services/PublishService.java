@@ -2,22 +2,18 @@ package de.codekeepers.jobdog.services;
 
 import de.codekeepers.jobdog.entities.Job;
 import de.codekeepers.jobdog.repositories.JobRepository;
-import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 /**
@@ -37,18 +33,13 @@ public class PublishService {
     static String convertToXml(Job job) {
 
         return tag("job",
-                textNode("title", job.getTitle()) +
-                        textNode("description", job.getDescription()) +
-                        (StringUtils.isEmpty(job.getTags()) ? "" : tag("categories", Arrays.stream(job.getTags().split(",")).map(s -> textNode("category", s)).collect(Collectors.joining())))
+                tag("title", job.getTitle()) +
+                        tag("description", job.getDescription())
         );
     }
 
     private static String tag(String tag, String text) {
         return "<" + tag + ">" + text + "</" + tag + ">";
-    }
-
-    private static String textNode(String tag, String text) {
-        return tag(tag, StringEscapeUtils.escapeXml11(text));
     }
 
     @Transactional

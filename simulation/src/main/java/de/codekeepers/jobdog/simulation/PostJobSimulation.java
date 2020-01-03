@@ -24,24 +24,28 @@ public class PostJobSimulation {
         String homeDir = System.getProperty("user.home");
         System.setProperty("webdriver.chrome.driver", homeDir + "/bin/chromedriver");
 
+        int port = 8080;
         int count = 5;
         int errorRate = 5;
         int batchSize = 25;
         try {
 
             if (args.length >= 1) {
-                count = Integer.valueOf(args[0]);
+                port = Integer.valueOf(args[0]);
             }
             if (args.length >= 2) {
-                errorRate = Integer.valueOf(args[1]);
+                count = Integer.valueOf(args[1]);
             }
             if (args.length >= 3) {
-                batchSize = Integer.valueOf(args[2]);
+                errorRate = Integer.valueOf(args[2]);
+            }
+            if (args.length >= 4) {
+                batchSize = Integer.valueOf(args[3]);
             }
             if (count == -1) {
-                logger.info("Will simulate infinite random posts with {}% error rate.", errorRate);
+                logger.info("Will simulate infinite random posts with {}% error rate using port {}.", errorRate, port);
             } else {
-                logger.info("Will simulate {} random post(s) with {}% error rate.", count, errorRate);
+                logger.info("Will simulate {} random post(s) with {}% error rate using port {}.", count, errorRate, port);
             }
         } catch (Exception e) {
             logger.error("Cannot parse commandline.", e);
@@ -66,7 +70,7 @@ public class PostJobSimulation {
                 ChromeOptions options = new ChromeOptions();
                 options.setHeadless(true);
                 driver = new ChromeDriver(options);
-                driver.get("http://localhost:8080/");
+                driver.get("http://localhost:" + port + "/");
                 driver.manage().window().setSize(new Dimension(1536, 960));
 
                 postJob(driver, jobCorpus, infinite ? batchSize : count, errorRate);

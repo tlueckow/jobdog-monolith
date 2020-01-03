@@ -20,23 +20,6 @@ public class PublishServiceTest {
         thenXmlDataIs("<job>" +
                 "<title>Chef</title>" +
                 "<description>Do it.</description>" +
-                "<categories>" +
-                "<category>restaurant</category>" +
-                "</categories>" +
-                "</job>");
-    }
-
-    @Test
-    void shouldEscapeXml() {
-
-        givenAJob("Chef", "Do it.", "r&d");
-        whenConvertToXml();
-        thenXmlDataIs("<job>" +
-                "<title>Chef</title>" +
-                "<description>Do it.</description>" +
-                "<categories>" +
-                "<category>r&amp;d</category>" +
-                "</categories>" +
                 "</job>");
     }
 
