@@ -41,15 +41,15 @@ Build the simulator.
 
 Start the simulator for n=10 posts (default is 5).
 
-`mvn exec:java mvn exec:java -Dexec.args="10"`
+`mvn exec:java -Dexec.args="10"`
 
 Start the simulator for infinite posts (n = -1).
 
-`mvn exec:java mvn exec:java -Dexec.args="-1"`
+`mvn exec:java -Dexec.args="-1"`
 
 Start the simulator for infinite posts and error rate r=10 (statistically 1 out of *r* posts is erroneous; default is 5).
 
-`mvn exec:java mvn exec:java -Dexec.args="-1 10"`
+`mvn exec:java -Dexec.args="-1 10"`
 
 ## Dockerize web application 
 
